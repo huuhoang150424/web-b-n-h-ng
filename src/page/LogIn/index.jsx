@@ -5,9 +5,9 @@ import * as Yup from 'yup'
 import loginImg from "../../assets/img/loginImg.jpg"
 import Button from "../../components/Button"
 import { login } from "../../redux/action/auth"
-import { selectSuccess,selectError,selectLoading } from "../../redux/authSlice"
+import { selectSuccess,selectError,selectLoading,selectUser } from "../../redux/authSlice"
 import { success,error } from "../../components/Message"
-import { useEffect } from "react"
+import { useEffect, useReducer } from "react"
 
 const loginSchema = Yup.object().shape({
     name: Yup.string().required("Vui lòng nhập tên đăng nhập."),
@@ -18,6 +18,7 @@ const loginSchema = Yup.object().shape({
 const LogIn = () => {
     const dispatch=useDispatch()
     const isSuccess=useSelector(selectSuccess)
+    const user = useSelector(selectUser)
     const isLoading=useSelector(selectLoading)
     const isError=useSelector(selectError)
     const navigate=useNavigate()
@@ -34,7 +35,8 @@ const LogIn = () => {
     })
     useEffect(()=>{
         if (isSuccess) {
-            success({ messageContent: "Đăng nhập thành công!" });
+            success({ messageContent: "Đăng nhập thành công!" })
+            console.log(user)
             navigate("/")
         }
     },[isSuccess])

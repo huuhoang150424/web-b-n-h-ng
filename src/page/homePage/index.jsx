@@ -21,7 +21,6 @@ const typeProducts=[
 ]
 const HomePage = () => {
     const [products,setProducts]=useState([])
-    console.log(products)
     useEffect(()=>{
         getProducts({
             params: {limit: 5}

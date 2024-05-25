@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
+import { selectIsAuthenticated } from "../redux/authSlice"
 
 
 
 const Header = () => {
+    const isAuthenticated=useSelector(selectIsAuthenticated)
     return (
         <header className="w-full gap-[50px] h-auto wrapper flex items-center justify-between bg-primaryColor py-[10px] z-30 sticky top-0 shadow-md ">
             <div className="w-[14%]  flex items-center justify-center  mr-[100px]">
@@ -37,10 +40,14 @@ const Header = () => {
                         <i className="fa-regular fa-user text-[3rem] font-[400] text-[#fff]"></i>
                     </div>
                     <div className="">
-                        <div className="flex items-center gap-[5px] text-[#fff] ">
+                        {isAuthenticated===true?(<div className="flex items-center gap-[5px] text-[#fff] ">
+                                            <a href="/" className="cursor-pointer text-[1.6rem]">Tài khoản</a>
+                                        </div>):
+                        (<div className="flex items-center gap-[5px] text-[#fff] ">
                             <Link to={"./login"} className="cursor-pointer text-[1.6rem]">Đăng nhập</Link>
                             <Link to={"./register"} className="cursor-pointer text-[1.6rem]">Đăng ký</Link>
-                        </div>
+                        </div> )
+                        }
                         <div className="flex items-center cursor-pointer text-[#fff] gap-[4px]">
                             <h5 className=" text-[1.6rem]">Tài khoản</h5>
                             <i className="fa-solid fa-caret-down"></i>

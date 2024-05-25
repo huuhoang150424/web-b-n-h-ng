@@ -6,7 +6,8 @@ export const login=createAsyncThunk("auth/login",async (payload,{rejectWithValue
     try {
         const response = await loginUser(payload)
         if (response.status === 200) {
-            return response.data;
+            console.log(response.data)
+            return response.data
         } else {
             return rejectWithValue(response.data)
         }
