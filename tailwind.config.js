@@ -10,7 +10,8 @@ export default {
         primaryColor: "#f7462e",
         lineColor: "#b7b7b8",
         background: "#f0f1f3",
-        textColor: "#1f1f1f"
+        textColor: "#1f1f1f",
+        warningColor: "#e94d5b"
       }
     },
   },

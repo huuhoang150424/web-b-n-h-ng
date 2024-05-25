@@ -1,22 +1,30 @@
 import { useFormik } from "formik"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import * as Yup from 'yup'
 import loginImg from "../../assets/img/loginImg.jpg"
 import Button from "../../components/Button"
 import { register } from "../../data/Api"
+import { success,error } from "../../components/Message"
 
 const loginSchema = Yup.object({
     name: Yup.string().required('Vui lòng nhập tên'),
-    email: Yup.string().required('Vui lòng nhập email'),
-    password: Yup.string().required('Vui lòng nhập mật khẩu'),
+    email: Yup.string().required('Vui lòng nhập email').email('Email không hợp lệ'),
+    password: Yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
 })
 
-const LogIn = () => {
+const Register = () => {
+    const navigate=useNavigate()
     const handleSubmit=async (values) => {
         try{
-            await register(values)
-            window.location.href = "/login"
+            const res=await register(values)
+            if (res.status===200) {
+                success({messageContent: res.data.message})
+                navigate(`/login`)
+            } else {
+                error({messageContent: res.data.message})
+            }
         } catch (err) {
+            error({messageContent: `Lỗi ${err.message}`})
             throw new Error(`Lỗi ${err}`)
         }
     }
@@ -48,6 +56,9 @@ const LogIn = () => {
                                 onChange={formik.handleChange}
                                 value={formik.values.name}
                             />
+                            {formik.touched.name && formik.errors.name ? (
+                                <span className="text-[1.2rem] font-[500] text-warningColor ">{formik.errors.name}</span>
+                            ):null}
                         </div>
                         <div className="flex flex-col mb-[10px] ">
                             <div className="flex mb-[5px] "><label className="text-[1.6rem] font-[400] leading-[2.4rem] text-textColor" htmlFor="email">Email</label><span className="ml-[5px] font-[800] text-[#f74955] text-[1.6rem]">*</span></div>
@@ -60,6 +71,9 @@ const LogIn = () => {
                                 onChange={formik.handleChange}
                                 value={formik.values.email}
                             />
+                            {formik.touched.email && formik.errors.email ? (
+                                <span className="text-[1.2rem] font-[500] text-warningColor ">{formik.errors.email}</span>
+                            ):null}
                         </div>
                         <div className="flex flex-col mb-[10px]">
                             <div className="flex mb-[5px] "><label className="text-[1.6rem] font-[400] leading-[2.4rem] text-textColor" htmlFor="password">Mật khẩu</label><span className="ml-[5px] font-[800] text-[#f74955] text-[1.6rem]">*</span></div>
@@ -72,6 +86,9 @@ const LogIn = () => {
                                 onChange={formik.handleChange}
                                 value={formik.values.password}
                             />
+                            {formik.touched.password && formik.errors.password ? (
+                                <span className="text-[1.2rem] font-[500] text-warningColor ">{formik.errors.password}</span>
+                            ):null}
                         </div>
                         <Button
                             className="my-[10px] px-[12px] py-[8px] bg-primaryColor w-full shadow-md transition-all duration-200 ease-in-out hover:bg-opacity-90"
@@ -96,4 +113,4 @@ const LogIn = () => {
     )
 }
 
-export default LogIn
+export default Register
