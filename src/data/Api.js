@@ -2,7 +2,7 @@ import HTTP from "./Http"
 
 
 //login
-export const login=(payload)=>HTTP.post(`user/login`,payload)
+export const loginUser=(payload)=>HTTP.post(`user/login`,payload)
 //register
 export const register=(payload)=>HTTP.post(`user/register`,payload)
 

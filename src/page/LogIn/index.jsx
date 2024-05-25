@@ -1,23 +1,30 @@
 import { useFormik } from "formik"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import * as Yup from 'yup'
 import loginImg from "../../assets/img/loginImg.jpg"
 import Button from "../../components/Button"
-import { login } from "../../data/Api"
+import {loginUser} from "../../data/Api"
+import { success,error } from "../../components/Message"
 
 const loginSchema = Yup.object().shape({
     name: Yup.string().required("Vui lòng nhập tên đăng nhập."),
-    password: Yup.string().required("Vui lòng nhập mật khẩu."),
-});
+    password: Yup.string().required("Vui lòng nhập mật khẩu.")
+    //.min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+})
 
 const LogIn = () => {
 
-
+    const navigate=useNavigate()
     const handleSubmit=async (values)=>{
         try {
-            console.log(values)
-            await login(values)
-            window.location.href = "/"
+            const res=await loginUser(values)
+            if (res.status===200) {
+                success({messageContent: res.data.message})
+                console.log(res.data)
+                //navigate(`/`)
+            } else {
+                error({messageContent: res.data.message})
+            }
         } catch (err) {
             throw new Error(`Lỗi ${err}`)
         }
@@ -29,7 +36,7 @@ const LogIn = () => {
         },
         onSubmit: handleSubmit,
         validationSchema: loginSchema,
-    });
+    })
     return (
         <div className="fixed inset-0 flex items-center justify-center z-40">
             <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -49,8 +56,11 @@ const LogIn = () => {
                                 onChange={formik.handleChange}
                                 value={formik.values.name}
                             />
+                            {formik.touched.name && formik.errors.name ? (
+                                <span className="text-[1.2rem] font-[500] text-warningColor ">{formik.errors.name}</span>
+                            ):null}
                         </div>
-                        <div className="flex flex-col mb-[10px]">
+                        <div className="flex flex-col mb-[15px]">
                             <div className="flex mb-[5px] "><label className="text-[1.6rem] font-[400] leading-[2.4rem] text-textColor" htmlFor="password">Mật khẩu</label><span className="ml-[5px] font-[800] text-[#f74955] text-[1.6rem]">*</span></div>
                             <input 
                                 className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-lineColor border border-lineColor focus:border-1 focus:border-primaryColor" 
@@ -61,6 +71,9 @@ const LogIn = () => {
                                 onChange={formik.handleChange}
                                 value={formik.values.password}
                             />
+                            {formik.touched.password && formik.errors.password ? (
+                                <span className="text-[1.2rem] font-[500] text-warningColor ">{formik.errors.password}</span>
+                            ):null}
                         </div>
                         <a className="text-[1.3rem] text-primaryColor font-[600] " href="#">Quên mật khẩu?</a>
                         <Button
