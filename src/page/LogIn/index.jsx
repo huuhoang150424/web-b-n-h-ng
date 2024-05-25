@@ -1,10 +1,13 @@
 import { useFormik } from "formik"
 import {Link, useNavigate} from "react-router-dom"
+import {useDispatch,useSelector} from 'react-redux'
 import * as Yup from 'yup'
 import loginImg from "../../assets/img/loginImg.jpg"
 import Button from "../../components/Button"
-import {loginUser} from "../../data/Api"
+import { login } from "../../redux/action/auth"
+import { selectSuccess,selectError,selectLoading } from "../../redux/authSlice"
 import { success,error } from "../../components/Message"
+import { useEffect } from "react"
 
 const loginSchema = Yup.object().shape({
     name: Yup.string().required("Vui lòng nhập tên đăng nhập."),
@@ -13,21 +16,13 @@ const loginSchema = Yup.object().shape({
 })
 
 const LogIn = () => {
-
+    const dispatch=useDispatch()
+    const isSuccess=useSelector(selectSuccess)
+    const isLoading=useSelector(selectLoading)
+    const isError=useSelector(selectError)
     const navigate=useNavigate()
     const handleSubmit=async (values)=>{
-        try {
-            const res=await loginUser(values)
-            if (res.status===200) {
-                success({messageContent: res.data.message})
-                console.log(res.data)
-                //navigate(`/`)
-            } else {
-                error({messageContent: res.data.message})
-            }
-        } catch (err) {
-            throw new Error(`Lỗi ${err}`)
-        }
+        dispatch(login(values))
     }
     const formik = useFormik({
         initialValues: {
@@ -37,6 +32,12 @@ const LogIn = () => {
         onSubmit: handleSubmit,
         validationSchema: loginSchema,
     })
+    useEffect(()=>{
+        if (isSuccess) {
+            success({ messageContent: "Đăng nhập thành công!" });
+            navigate("/")
+        }
+    },[isSuccess])
     return (
         <div className="fixed inset-0 flex items-center justify-center z-40">
             <div className="fixed inset-0 bg-black opacity-50"></div>
