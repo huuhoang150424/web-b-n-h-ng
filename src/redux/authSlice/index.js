@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { login } from '../action/auth'
-import { success } from '../../components/Message'
 
 
 const authSlice = createSlice({
@@ -11,7 +10,8 @@ const authSlice = createSlice({
     user: null,
     loading: false,
     error: null,
-    success: false
+    success: false,
+    userDetail: null
   },
   reducers: {
     logout: (state) => {
@@ -19,6 +19,16 @@ const authSlice = createSlice({
       state.user = null
       state.token=""
     },
+    setAuthState: (state, action) => {
+      console.log(action.payload)
+      state.isAuthenticated=true
+      state.user=action.payload.user
+      state.token=action.payload.accessToken
+    },
+    setUserDetail:(state,action)=>{
+      console.log(action.payload)
+      state.userDetail=action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -29,9 +39,8 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.success=true
         state.isAuthenticated = true
-        state.user = action.payload
         state.loading = false
-        state.token = action.payload.token
+        state.token = action.payload.accessToken
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false
@@ -40,7 +49,7 @@ const authSlice = createSlice({
   },
 })
 
-export const { logout } = authSlice.actions
+export const { logout ,setAuthState,setUserDetail} = authSlice.actions
 
 export const selectIsAuthenticated=(state)=>state.auth.isAuthenticated
 export const selectToken=(state)=>state.auth.token

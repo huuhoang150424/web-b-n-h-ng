@@ -4,6 +4,8 @@ import NotFoundPage from "../page/NotFoundPage"
 import HomePage from "../page/homePage"
 import ProductsDetail from "../page/productsDetail"
 import OrderPage from "../page/orderPage"
+import { Profile } from "../page/profile"
+import { CartPage } from "../page/CartPage"
 
 export const routers = [
     {
@@ -25,6 +27,14 @@ export const routers = [
     {
         path: "/order",
         element: <OrderPage/>,
+    },
+    {
+        path: "/profile",
+        element: <Profile/>
+    },
+    {
+        path: "/cart",
+        element: <CartPage/>
     },
     {
         path: "*",

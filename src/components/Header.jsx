@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { selectIsAuthenticated } from "../redux/authSlice"
+import { selectIsAuthenticated ,selectUser} from "../redux/authSlice"
 
 
 
 const Header = () => {
     const isAuthenticated=useSelector(selectIsAuthenticated)
+    const user=useSelector(selectUser)
     return (
         <header className="w-full gap-[50px] h-auto wrapper flex items-center justify-between bg-primaryColor py-[10px] z-30 sticky top-0 shadow-md ">
             <div className="w-[14%]  flex items-center justify-center  mr-[100px]">
@@ -30,7 +31,7 @@ const Header = () => {
             <div className="w-[28%] flex items-center gap-[10px] ">
                 <div className="flex items-center  gap-[5px] cursor-pointer relative">
                     <i className="fa-solid fa-cart-shopping text-[3rem] text-[#fff]"></i>
-                    <h4 className="text-[#fff] text-[1.6rem] font-[500]">Giỏ hàng</h4>
+                    <Link to={"/cart"} className="text-[#fff] text-[1.6rem] font-[500]">Giỏ hàng</Link>
                     <div className="absolute top-[-8px] left-[24px] flex items-center justify-center w-[16px] h-[16px] bg-[#fff] rounded-[50%] border-[0.6px]">
                         <span className=" text-[1.2rem] font-[700] text-primaryColor">0</span>
                     </div>
@@ -40,15 +41,17 @@ const Header = () => {
                         <i className="fa-regular fa-user text-[3rem] font-[400] text-[#fff]"></i>
                     </div>
                     <div className="">
-                        {isAuthenticated===true?(<div className="flex items-center gap-[5px] text-[#fff] ">
-                                            <a href="/" className="cursor-pointer text-[1.6rem]">Tài khoản</a>
-                                        </div>):
-                        (<div className="flex items-center gap-[5px] text-[#fff] ">
-                            <Link to={"./login"} className="cursor-pointer text-[1.6rem]">Đăng nhập</Link>
-                            <Link to={"./register"} className="cursor-pointer text-[1.6rem]">Đăng ký</Link>
-                        </div> )
-                        }
-                        <div className="flex items-center cursor-pointer text-[#fff] gap-[4px]">
+                        {isAuthenticated && user?(
+                            <div className="flex items-center gap-[5px] text-[#fff] ">
+                                <Link to={`/profile`} className="cursor-pointer text-[1.6rem]">{user?.other?.name}</Link>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-[5px] text-[#fff] ">
+                                <Link to={"/login"} className="cursor-pointer text-[1.6rem]">Đăng nhập</Link>
+                                <Link to={"/register"} className="cursor-pointer text-[1.6rem]">Đăng ký</Link>
+                            </div>
+                        )}
+                        <div className="flex items-center cursor-pointer mt-[5px] text-[#fff] gap-[4px]">
                             <h5 className=" text-[1.6rem]">Tài khoản</h5>
                             <i className="fa-solid fa-caret-down"></i>
                         </div>

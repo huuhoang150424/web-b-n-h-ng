@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 import loginImg from "../../assets/img/loginImg.jpg"
 import Button from "../../components/Button"
 import { login } from "../../redux/action/auth"
-import { selectSuccess,selectError,selectLoading,selectUser } from "../../redux/authSlice"
+import { selectSuccess,selectError,selectLoading,selectUser,selectToken } from "../../redux/authSlice"
 import { success,error } from "../../components/Message"
 import { useEffect, useReducer } from "react"
 
@@ -21,6 +21,7 @@ const LogIn = () => {
     const user = useSelector(selectUser)
     const isLoading=useSelector(selectLoading)
     const isError=useSelector(selectError)
+    const token=useSelector(selectToken)
     const navigate=useNavigate()
     const handleSubmit=async (values)=>{
         dispatch(login(values))
@@ -36,7 +37,7 @@ const LogIn = () => {
     useEffect(()=>{
         if (isSuccess) {
             success({ messageContent: "Đăng nhập thành công!" })
-            console.log(user)
+            localStorage.setItem('access_token',token)
             navigate("/")
         }
     },[isSuccess])

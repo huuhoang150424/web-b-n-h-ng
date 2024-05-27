@@ -6,10 +6,57 @@
 * {
     @apply font-sans;
 }
-html {
-    @apply text-[62.5%];
+@layer components {
+    .wrapper__content-mobile {
+        @apply px-[10px];
+    }
+    .wrapper__content {
+        @apply px-[110px];
+    }
+    .wrapper {
+        @apply px-[66px];
+    }
+    .grid__container {
+        @apply w-[100%];
+    }
+    .grid__full-width {
+        @apply w-[100%] ;
+    }
+    .grid__column-2 {
+        @apply w-[16.67%];
+    }
+    .grid__column-3 {
+        @apply w-[25%];
+    }
+    .grid__column-4 {
+        @apply w-[33.33%];
+    }
+    .grid__column-5 {
+        @apply w-[41.66%];
+    }
+    .grid__column-6 {
+        @apply w-[50%];
+    }
+    .grid__column-7 {
+        @apply w-[58.33%];
+    }
+    .grid__column-8 {
+        @apply w-[66.66%];
+    }
+    .grid__column-9 {
+        @apply w-[75%];
+    }
+    .grid__column-10 {
+        @apply w-[83.33%];
+    }
+    
 }
-
+html {
+    @apply text-[62.5%] leading-[1.6rem];
+}
+body {
+    @apply bg-[#f5f5f5] ;
+}
 .grid__column-2 {
     @apply pl-[5px] pr-[5px] w-[16.67%];
 }
@@ -31,6 +78,8 @@ html {
 .pagination {
     @apply px-[12px] py-[8px] cursor-pointer rounded-[2px] hover:bg-slate-200 transition-all duration-300 ease-in-out border border-lineColor ;
 }
-
+.footer__text {
+    @apply text-textColor text-[1.2rem];
+}
 
 
