@@ -1,16 +1,32 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { selectIsAuthenticated ,selectUser} from "../redux/authSlice"
+import { selectIsAuthenticated ,selectUserDetail,logout} from "../redux/authSlice"
+import Line from "./Line";
+import { useEffect, useRef, useState } from "react";
 
 
 
 const Header = () => {
+    const dispatch=useDispatch()
     const isAuthenticated=useSelector(selectIsAuthenticated)
-    const user=useSelector(selectUser)
+    const [hiddenModelUser,setHiddenModelUser]=useState(false)
+    const user=useSelector(selectUserDetail)
+    const dropDownRef=useRef()
+    const handleClickOutside = (event) => {
+        if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
+            setHiddenModelUser(false)
+        }
+    }
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [])
     return (
-        <header className="w-full gap-[50px] h-auto wrapper flex items-center justify-between bg-primaryColor py-[10px] z-30 sticky top-0 shadow-md ">
-            <div className="w-[14%]  flex items-center justify-center  mr-[100px]">
-                <Link to="/" className="text-[2.2rem] text-[#fff] font-[600]">
+        <header className="w-full gap-[50px] h-auto wrapper flex items-center justify-between bg-primaryColor py-[6px] z-30 sticky top-0 shadow-md ">
+            <div className="w-[12%]  flex items-center justify-center  mr-[80px]">
+                <Link to="/" className="w-full text-[2.2rem]  text-[#fff] font-[600]">
                     Shop Online
                 </Link>
             </div>
@@ -28,38 +44,52 @@ const Header = () => {
                     </div>
                 </form>
             </div>
-            <div className="w-[28%] flex items-center gap-[10px] ">
+            <div className="w-[30%] flex items-center gap-[10px] ">
                 <div className="flex items-center  gap-[5px] cursor-pointer relative">
-                    <i className="fa-solid fa-cart-shopping text-[3rem] text-[#fff]"></i>
-                    <Link to={"/cart"} className="text-[#fff] text-[1.6rem] font-[500]">Giỏ hàng</Link>
-                    <div className="absolute top-[-8px] left-[24px] flex items-center justify-center w-[16px] h-[16px] bg-[#fff] rounded-[50%] border-[0.6px]">
-                        <span className=" text-[1.2rem] font-[700] text-primaryColor">0</span>
+                    <i className="fa-solid fa-cart-shopping text-[2.6rem] text-[#fff]"></i>
+                    <Link to={"/cart"} className="text-[#fff] text-[1.4rem] font-[500]">Giỏ hàng</Link>
+                    <div className="absolute top-[-8px] left-[24px] flex items-center justify-center w-[14px] h-[14px] bg-[#fff] rounded-[50%] border-[0.6px]">
+                        <span className=" text-[1rem] font-[700] text-primaryColor">0</span>
                     </div>
                 </div>
+                <Line
+                    className="h-[25px] w-[1px] "
+                />
                 <div className="flex items-center">
-                    <div className="w-[40px] h-[40px] flex items-center justify-center ">
-                        <i className="fa-regular fa-user text-[3rem] font-[400] text-[#fff]"></i>
+                    <div className=" ml-[5px] mr-[8px] flex items-center justify-center ">
+                        {user?(<img src="https://ss-images.saostar.vn/wp700/2015/11/13/114625/21.jpg" className="rounded-[50%] w-[40px] h-[40px] object-cover " alt="user"/>):(<i className="fa-regular fa-user text-[2.4rem] font-[400] text-[#fff]"></i>)}
                     </div>
-                    <div className="">
-                        {isAuthenticated && user?(
-                            <div className="flex items-center gap-[5px] text-[#fff] ">
-                                <Link to={`/profile`} className="cursor-pointer text-[1.6rem]">{user?.other?.name}</Link>
+                    <div className="relative" ref={dropDownRef}>
+                        {isAuthenticated && user ? (
+                            <div className="flex items-center gap-[5px] text-[#fff] cursor-pointer" onClick={() => setHiddenModelUser(!hiddenModelUser)}>
+                                <p className=" text-[1.6rem]">{user?.name}</p>
+                                <i className="fa-solid fa-caret-down"></i>
                             </div>
                         ) : (
-                            <div className="flex items-center gap-[5px] text-[#fff] ">
+                            <div className="flex items-center gap-[10px] text-[#fff] ">
                                 <Link to={"/login"} className="cursor-pointer text-[1.6rem]">Đăng nhập</Link>
                                 <Link to={"/register"} className="cursor-pointer text-[1.6rem]">Đăng ký</Link>
                             </div>
                         )}
-                        <div className="flex items-center cursor-pointer mt-[5px] text-[#fff] gap-[4px]">
-                            <h5 className=" text-[1.6rem]">Tài khoản</h5>
-                            <i className="fa-solid fa-caret-down"></i>
-                        </div>
+                        {hiddenModelUser && (
+                            <ul className="bg-white w-[130px] absolute top-[150%] shadow-lg rounded-[4px] ">
+                                <li className="py-[10px] cursor-pointer border-b border-lineColor">
+                                    <Link onClick={() => setHiddenModelUser(false)} className="flex justify-center text-[1.2rem] font-[400] " to={"/profile"}>Thông tin tài khoản</Link>
+                                </li>
+                                <li className="py-[10px] cursor-pointer" onClick={() => {
+                                    localStorage.removeItem('access_token');
+                                    dispatch(logout());
+                                    setHiddenModelUser(false);
+                                }}>
+                                    <p className="text-center text-[1.2rem] font-[400] ">Đăng xuất</p>
+                                </li>
+                            </ul>
+                        )}
                     </div>
                 </div>
             </div>
         </header>
-    );
-};
+    )
+}
 
-export default Header;
+export default Header

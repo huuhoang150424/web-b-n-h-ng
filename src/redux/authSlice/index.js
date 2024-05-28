@@ -17,6 +17,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false
       state.user = null
+      state.userDetail = null
       state.token=""
     },
     setAuthState: (state, action) => {
@@ -54,6 +55,7 @@ export const { logout ,setAuthState,setUserDetail} = authSlice.actions
 export const selectIsAuthenticated=(state)=>state.auth.isAuthenticated
 export const selectToken=(state)=>state.auth.token
 export const selectUser=(state)=>state.auth.user
+export const selectUserDetail=(state)=>state.auth.userDetail
 export const selectLoading=(state)=>state.auth.loading
 export const selectError=(state)=>state.auth.error
 export const selectSuccess=(state)=>state.auth.success

@@ -23,23 +23,30 @@ export default function App() {
   const navigate=useNavigate()
   useEffect(()=>{
     const accessToken = localStorage.getItem('access_token')
-      if (accessToken) {
-        const user=jwtDecode(accessToken)
-        const {id}=user
+    if (accessToken) {
+      const user=jwtDecode(accessToken)
+      const {id,exp}=user
+      const tokenExpired = (exp*1000)< Date.now()
+      if (tokenExpired) {
+        localStorage.removeItem('access_token')
+        navigate('/')
+      } else {
         getDetailUser(id,accessToken)
         dispatch(setAuthState({accessToken: accessToken,user}))
       }
+    } else {
+      navigate("/login")
+    }
   },[dispatch,navigate])
   const getDetailUser=async (id,accessToken)=>{
     try {
       const res=await getUser(id,{headers: {token :`Bearer ${accessToken}`}})
-      console.log(res)
+      dispatch(setUserDetail(res.data.data))
+      //console.log(res.data.data)
     } catch (err) {
       console.log(err)
     }
   }
-
-
   return (
     <div className='bg-background'>
       <Header/>
