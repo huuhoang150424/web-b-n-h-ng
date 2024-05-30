@@ -19,15 +19,15 @@ const authSlice = createSlice({
       state.user = null
       state.userDetail = null
       state.token=""
+      state.success=false
     },
     setAuthState: (state, action) => {
-      console.log(action.payload)
-      state.isAuthenticated=true
       state.user=action.payload.user
       state.token=action.payload.accessToken
     },
-    setUserDetail:(state,action)=>{
+    setUserDetailState: (state, action) => {
       console.log(action.payload)
+      state.isAuthenticated=true
       state.userDetail=action.payload
     }
   },
@@ -38,6 +38,7 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(login.fulfilled, (state, action) => {
+        console.log(action.payload)
         state.success=true
         state.isAuthenticated = true
         state.loading = false
@@ -50,8 +51,8 @@ const authSlice = createSlice({
   },
 })
 
-export const { logout ,setAuthState,setUserDetail} = authSlice.actions
-
+export const { logout ,setAuthState,setUserDetailState} = authSlice.actions
+//setTokenState
 export const selectIsAuthenticated=(state)=>state.auth.isAuthenticated
 export const selectToken=(state)=>state.auth.token
 export const selectUser=(state)=>state.auth.user

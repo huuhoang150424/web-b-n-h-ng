@@ -1,12 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { loginUser,logoutUser } from "../../data/Api"
+import { loginUser } from "../../data/Api"
 
 //rejectWithValue hàm trả về giá trị lỗi
 export const login=createAsyncThunk("auth/login",async (payload,{rejectWithValue})=>{
     try {
         const response = await loginUser(payload)
         if (response.status === 200) {
-            console.log(response.data)
             return response.data
         } else {
             return rejectWithValue(response.data)
@@ -16,14 +15,4 @@ export const login=createAsyncThunk("auth/login",async (payload,{rejectWithValue
     }
 })
 
-export const logout = createAsyncThunk(
-    'auth/logoutUser',
-    async (payload, { rejectWithValue }) => {
-        try {
-            const response=await logoutUser(payload)
-            return response
-        } catch (err) {
-            return rejectWithValue(err.response.data)
-        }
-    }
-)
+

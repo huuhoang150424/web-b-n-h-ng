@@ -18,9 +18,6 @@ const loginSchema = Yup.object().shape({
 const LogIn = () => {
     const dispatch=useDispatch()
     const isSuccess=useSelector(selectSuccess)
-    const user = useSelector(selectUser)
-    const isLoading=useSelector(selectLoading)
-    const isError=useSelector(selectError)
     const token=useSelector(selectToken)
     const navigate=useNavigate()
     const handleSubmit=async (values)=>{
