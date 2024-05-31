@@ -14,7 +14,6 @@ const Header = () => {
     const isAuthenticated=useSelector(selectIsAuthenticated)
     const [hiddenModelUser,setHiddenModelUser]=useState(false)
     const user=useSelector(selectUserDetail)
-    console.log("header" ,user)
     const dropDownRef=useRef()
     const handleClickOutside = (event) => {
         if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
@@ -27,23 +26,17 @@ const Header = () => {
             document.removeEventListener("mousedown", handleClickOutside)
         }
     }, [])
-    const handleLogout = () => {
-        //lỗi khó hiểu
+    const handleLogout = async () => {
         console.log(token)
-        // if (token) {
-        //     try {
-        //         const response = await logoutUser({
-        //             headers: {
-        //                 token : `Bearer ${token}`
-        //             }
-        //         })
-        //         success({ messageContent: response.message })
-        //         localStorage.removeItem('access_token')
-
-        //     } catch (err) {
-        //         console.log('Logout failed:', err)
-        //     }
-        // }
+        if (token) {
+            try {
+                const response = await logoutUser()
+                success({ messageContent: response.data.message })
+                localStorage.removeItem('access_token')
+            } catch (err) {
+                console.log('Logout failed:', err)
+            }
+        }
         localStorage.removeItem('access_token')
         dispatch(logout())
         setHiddenModelUser(false)
@@ -84,7 +77,7 @@ const Header = () => {
                 />
                 <div className="flex items-center">
                     <div className=" ml-[5px] mr-[8px] flex items-center justify-center ">
-                        {user?(<img src="https://ss-images.saostar.vn/wp700/2015/11/13/114625/21.jpg" className="rounded-[50%] w-[40px] h-[40px] object-cover " alt="user"/>):(<i className="fa-regular fa-user text-[2.4rem] font-[400] text-[#fff]"></i>)}
+                        {user?(<img src={`${user.avatar}`} className="rounded-[50%] w-[40px] h-[40px] object-cover " alt="user"/>):(<i className="fa-regular fa-user text-[2.4rem] font-[400] text-[#fff]"></i>)}
                     </div>
                     <div className="relative" ref={dropDownRef}>
                         {isAuthenticated && user ? (

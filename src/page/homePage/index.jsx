@@ -10,6 +10,7 @@ import Pagination from "../../components/Pagination";
 import { useEffect, useState } from 'react'
 import { getProducts } from '../../data/Api'
 
+
 const arraySliders=[slider1,slider2,slider3]
 const arraySliders1=[slider4,slider5]
 const typeProducts=[

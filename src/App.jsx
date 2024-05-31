@@ -34,18 +34,16 @@ export default function App() {
       console.log(err)
     }
   }
-  console.log(accessToken)
   useEffect(()=>{
-    if (!accessToken) {
-      navigate("/login")
-      return
-    }
-    if (accessToken) {
+    if(accessToken) {
       const user=jwtDecode(accessToken)
       const {id}=user
       getDetailUser(id)
       dispatch(setAuthState({accessToken: accessToken,user}))
-    } 
+    } else {
+      const randomPage = Math.random() < 0.5 ? "/login" : "/register"
+      navigate(randomPage)
+    }
   },[dispatch,navigate,accessToken])
 
 
