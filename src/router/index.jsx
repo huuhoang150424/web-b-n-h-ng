@@ -4,40 +4,48 @@ import NotFoundPage from "../page/NotFoundPage"
 import HomePage from "../page/homePage"
 import ProductsDetail from "../page/productsDetail"
 import OrderPage from "../page/orderPage"
-import { Profile } from "../page/profile"
+import { Profile } from "../page/Profile"
 import { CartPage } from "../page/CartPage"
 
 export const routers = [
     {
         path: "/login",
         element: <Login/>,
+        name: "Đăng nhập"
     },
     {
         path: "/register",
         element: <Register/>,
+        name: "Đăng ký"
     },
     {
         path: "/",
         element: <HomePage/>,
+        name: "Trang chủ"
     },
     {
         path: "/productsDetail/:id",
         element: <ProductsDetail/>,
+        name: "Trang chi tiết"
     },
     {
         path: "/order",
         element: <OrderPage/>,
+        name: "đơn hàng"
     },
     {
         path: "/profile",
-        element: <Profile/>
+        element: <Profile/>,
+        name: "Trang cá nhân"
     },
     {
         path: "/cart",
-        element: <CartPage/>
+        element: <CartPage/>,
+        name: "Giỏ hàng"
     },
     {
         path: "*",
-        element: <NotFoundPage/>
+        element: <NotFoundPage/>,
+        name: ""
     }
 ]

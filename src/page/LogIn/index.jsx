@@ -5,9 +5,9 @@ import * as Yup from 'yup'
 import loginImg from "../../assets/img/loginImg.jpg"
 import Button from "../../components/Button"
 import { login } from "../../redux/action/auth"
-import { selectSuccess,selectError,selectLoading,selectUser,selectToken } from "../../redux/authSlice"
-import { success,error } from "../../components/Message"
-import { useEffect, useReducer } from "react"
+import { selectSuccess,selectToken } from "../../redux/authSlice"
+import { success } from "../../components/Message"
+import { useEffect } from "react"
 
 const loginSchema = Yup.object().shape({
     name: Yup.string().required("Vui lòng nhập tên đăng nhập."),
@@ -39,7 +39,7 @@ const LogIn = () => {
         }
     },[isSuccess])
     return (
-        <div className="fixed inset-0 flex items-center justify-center z-40">
+        <div className="fixed inset-0 flex items-center justify-center z-40 ">
             <div className="fixed inset-0 bg-black opacity-50"></div>
             <div className="relative flex justify-between bg-white  rounded-md shadow-md z-50 overflow-hidden w-[60%] h-auto">
                 <div className="w-[55%] px-[30px] py-[40px]">
@@ -49,7 +49,7 @@ const LogIn = () => {
                         <div className="flex flex-col mb-[10px] ">
                             <div className="flex mb-[5px] "><label className="text-[1.6rem] font-[400] leading-[2.4rem] text-textColor" htmlFor="name">Tài Khoản</label><span className="ml-[5px] font-[800] text-[#f74955] text-[1.6rem]">*</span></div>
                             <input 
-                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-lineColor border border-lineColor focus:border-1 focus:border-primaryColor" 
+                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-iconColor border border-lineColor focus:border-1 focus:border-primaryColor" 
                                 id="name"
                                 name="name"
                                 placeholder="please enter name..."
@@ -64,7 +64,7 @@ const LogIn = () => {
                         <div className="flex flex-col mb-[15px]">
                             <div className="flex mb-[5px] "><label className="text-[1.6rem] font-[400] leading-[2.4rem] text-textColor" htmlFor="password">Mật khẩu</label><span className="ml-[5px] font-[800] text-[#f74955] text-[1.6rem]">*</span></div>
                             <input 
-                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-lineColor border border-lineColor focus:border-1 focus:border-primaryColor" 
+                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-iconColor border border-lineColor focus:border-1 focus:border-primaryColor" 
                                 id="password"
                                 name="password"
                                 placeholder="please enter password..."
@@ -99,5 +99,4 @@ const LogIn = () => {
         </div>
     )
 }
-
 export default LogIn

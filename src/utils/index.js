@@ -5,7 +5,6 @@ import { refreshToken } from "../data/Api"
 const getRefreshToken=async ()=>{
     try {
         const res=await refreshToken()
-        console.log(res.data)
         return res.data
     } catch (err) {
         console.log(err)

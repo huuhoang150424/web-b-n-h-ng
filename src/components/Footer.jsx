@@ -1,7 +1,7 @@
 import Line from "./Line"
 export default function Footer() {
     return (
-        <footer className="grid__container bg-[#fff] h-[100%] py-[16px] ">
+        <footer className="grid__container bg-[#fff] h-[100%] py-[16px]">
             <div className="wrapper__content  flex gap-[30px] ">
                 <div className="grow-[1]">
                     <h1 className="text-[1.6rem] font-[500] text-textColor mb-[12px] ">Hỗ trợ khách hàng</h1>

@@ -48,7 +48,7 @@ const Register = () => {
                         <div className="flex flex-col mb-[10px] ">
                             <div className="flex mb-[5px] "><label className="text-[1.6rem] font-[400] leading-[2.4rem] text-textColor" htmlFor="name">Tài Khoản</label><span className="ml-[5px] font-[800] text-[#f74955] text-[1.6rem]">*</span></div>
                             <input 
-                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-lineColor border border-lineColor focus:border-1 focus:border-primaryColor" 
+                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-iconColor border border-lineColor focus:border-1 focus:border-primaryColor" 
                                 id="name"
                                 name="name"
                                 placeholder="please enter name..."
@@ -63,7 +63,7 @@ const Register = () => {
                         <div className="flex flex-col mb-[10px] ">
                             <div className="flex mb-[5px] "><label className="text-[1.6rem] font-[400] leading-[2.4rem] text-textColor" htmlFor="email">Email</label><span className="ml-[5px] font-[800] text-[#f74955] text-[1.6rem]">*</span></div>
                             <input 
-                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-lineColor border border-lineColor focus:border-1 focus:border-primaryColor" 
+                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-iconColor border border-lineColor focus:border-1 focus:border-primaryColor" 
                                 id="email"
                                 name="email"
                                 placeholder="please enter email..."
@@ -78,7 +78,7 @@ const Register = () => {
                         <div className="flex flex-col mb-[10px]">
                             <div className="flex mb-[5px] "><label className="text-[1.6rem] font-[400] leading-[2.4rem] text-textColor" htmlFor="password">Mật khẩu</label><span className="ml-[5px] font-[800] text-[#f74955] text-[1.6rem]">*</span></div>
                             <input 
-                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-lineColor border border-lineColor focus:border-1 focus:border-primaryColor" 
+                                className="outline-none bg-[#f7f7f7] w-full py-[8px] px-[14px] text-[1.6rem] rounded-[4px] text-iconColor border border-lineColor focus:border-1 focus:border-primaryColor" 
                                 id="password"
                                 name="password"
                                 placeholder="please enter password..."

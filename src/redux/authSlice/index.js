@@ -26,7 +26,6 @@ const authSlice = createSlice({
       state.token=action.payload.accessToken
     },
     setUserDetailState: (state, action) => {
-      console.log(action.payload)
       state.isAuthenticated=true
       state.userDetail=action.payload
     }
@@ -38,7 +37,6 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.success=true
         state.isAuthenticated = true
         state.loading = false
