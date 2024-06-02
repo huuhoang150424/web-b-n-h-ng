@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
-import { selectIsAuthenticated ,selectUserDetail,logout,selectToken} from "../redux/authSlice"
+import { selectIsAuthenticated ,selectUserDetail,logout,selectToken, selectUser} from "../redux/authSlice"
 import Line from "./Line"
 import { useEffect, useRef, useState } from "react"
 import { logoutUser } from "../data/Api"
@@ -13,7 +13,8 @@ const Header = () => {
     const token=useSelector(selectToken)
     const isAuthenticated=useSelector(selectIsAuthenticated)
     const [hiddenModelUser,setHiddenModelUser]=useState(false)
-    const user=useSelector(selectUserDetail)
+    const userDetail=useSelector(selectUserDetail)
+    const user=useSelector(selectUser)
     const dropDownRef=useRef()
     const handleClickOutside = (event) => {
         if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
@@ -77,12 +78,12 @@ const Header = () => {
                 />
                 <div className="flex items-center">
                     <div className=" ml-[5px] mr-[8px] flex items-center justify-center ">
-                        {user?(<img src={`${user.avatar}`} className="rounded-[50%] w-[40px] h-[40px] object-cover " alt="user"/>):(<i className="fa-regular fa-user text-[2.4rem] font-[400] text-[#fff]"></i>)}
+                        {userDetail?(<img src={`${userDetail.avatar}`} className="rounded-[50%] w-[40px] h-[40px] object-cover " alt="user"/>):(<i className="fa-regular fa-user text-[2.4rem] font-[400] text-[#fff]"></i>)}
                     </div>
                     <div className="relative" ref={dropDownRef}>
-                        {isAuthenticated && user ? (
+                        {isAuthenticated && userDetail ? (
                             <div className="flex items-center gap-[5px] text-[#fff] cursor-pointer" onClick={() => setHiddenModelUser(!hiddenModelUser)}>
-                                <p className=" text-[1.6rem]">{user?.name}</p>
+                                <p className=" text-[1.6rem]">{userDetail?.name}</p>
                                 <i className="fa-solid fa-caret-down"></i>
                             </div>
                         ) : (
@@ -96,9 +97,19 @@ const Header = () => {
                                 <li className="py-[10px] cursor-pointer border-b border-lineColor">
                                     <Link onClick={() => setHiddenModelUser(false)} className="flex justify-center text-[1.2rem] font-[400] " to={"/profile"}>Thông tin tài khoản</Link>
                                 </li>
-                                <li className="py-[10px] cursor-pointer" onClick={handleLogout}>
+                                <li className="py-[10px] cursor-pointer border-b border-lineColor">
+                                    <Link onClick={() => setHiddenModelUser(false)} className="flex justify-center text-[1.2rem] font-[400] " to={"/order"}>Đơn hàng</Link>
+                                </li>
+                                <li className="py-[10px] cursor-pointer border-b border-lineColor" onClick={handleLogout}>
                                     <p className="text-center text-[1.2rem] font-[400] ">Đăng xuất</p>
                                 </li>
+                                {
+                                    user?.isAdmin && (
+                                        <li className="py-[10px] cursor-pointer" >
+                                            <Link to={'system/admin'} className="flex justify-center text-[1.2rem] font-[400] ">Quản lý hệ thống</Link>
+                                        </li>
+                                    )
+                                }
                             </ul>
                         )}
                     </div>

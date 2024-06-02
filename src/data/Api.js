@@ -10,8 +10,13 @@ export const register=(payload)=>HTTP.post(`user/register`,payload)
 //refresh Token
 export const refreshToken=()=>HTTP_REFRESHToken.post(`user/refresh`)
 
-//getAllProducts
-export const getProducts=(payload)=>HTTP.get(`product/getAllProducts`,payload)
 
 //get User
 export const getUser=(id,payload)=>HTTP.get(`user/getUser/${id}`,payload)
+
+//update user
+export const updateUser=(id,payload)=>HTTP.put(`user/update/${id}`,payload)
+
+
+//getAllProducts
+export const getProducts=(payload)=>HTTP.get(`product/getAllProducts`,payload)

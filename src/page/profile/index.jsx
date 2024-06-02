@@ -1,26 +1,53 @@
 import { useSelector } from "react-redux"
 import { useFormik } from "formik"
 import * as Yup from 'yup'
-import { selectUserDetail } from "../../redux/authSlice"
+import { selectToken, selectUserDetail } from "../../redux/authSlice"
 import Line from "../../components/Line"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Button from "../../components/Button"
+import { updateUser } from "../../data/Api"
 
 const loginSchema = Yup.object().shape({})
 
 export const Profile = () => {
     const user=useSelector(selectUserDetail)
-    const [editProfile,setEditProfile]=useState(false)
-    const handleEditProfile=(value)=>{
+    const token=useSelector(selectToken)
+    const [editProfile,setEditProfile]=useState(true)
+    const inputImgRef=useRef()
+    const handleFileUpload=(e)=>{
+        const fileImg=e.target.files[0]
+        if (fileImg) {
+            const reader=new FileReader()
+            reader.onloadend=()=>{
+                formik.setFieldValue("avatar", reader.result)
+            }
+            reader.readAsDataURL(fileImg)
+        }
+    }
+
+    const handleEditProfile=async (value)=>{
         console.log(value)
+        try {
+            const response=await updateUser(user._id,value,{
+                headers: {
+                    token: `Bearer ${token}`
+                }
+            })
+            console.log(response.data.message)
+            setEditProfile(true)
+            return response.data.message
+        } catch(err) {
+            console.log(`Lỗi ${err}`)
+        }
     }
     const formik = useFormik({
         initialValues: {
-            name: "",
-            email: "",
-            phone: "",
-            sex: "",
-            address: "",
+            name: user?.name || "",
+            email: user?.email || "",
+            phone: user?.phone || "",
+            sex: user?.sex || "",
+            address: user?.address || "",
+            avatar: user?.avatar || ""
         },
         onSubmit: handleEditProfile,
         validationSchema: loginSchema,
@@ -76,7 +103,7 @@ export const Profile = () => {
                                     </li>
                                     <li className="flex gap-[30px] ">
                                         <p className="text-[1.6rem] font-[400] text-iconColor w-[40%] ">địa chỉ:</p>
-                                        <span className="text-[1.6rem] font-[400] text-textColor w-[45%] " >{!user?.city?"Chưa có dữ liệu":user?.city}</span>
+                                        <span className="text-[1.6rem] font-[400] text-textColor w-[45%] " >{!user?.address?"Chưa có dữ liệu":user?.address}</span>
                                     </li>
                                 </ul>
                                 <Line
@@ -95,9 +122,9 @@ export const Profile = () => {
                                 onClick={()=>setEditProfile(false)}
                             />
                         </div>):(
-                        <form onSubmit={formik.handleSubmit} className="px-[100px]">
-                            <div className="flex gap-[40px]">
-                                <ul className="flex flex-col gap-[18px] w-[70%] pb-[20px]">
+                        <div className="px-[100px] flex gap-[40px] ">
+                            <form method="PUT" action="/" onSubmit={formik.handleSubmit} className="w-[90%]">
+                                <ul className="flex flex-col gap-[18px]  pb-[20px]">
                                     <li className="flex items-center gap-[30px]">
                                         <label htmlFor="name" className="text-[1.6rem] font-[400] text-iconColor w-[40%] ">Tên đăng nhập:</label>
                                         <input
@@ -172,32 +199,41 @@ export const Profile = () => {
                                         />
                                     </li>
                                 </ul>
-                                <Line
-                                    className="bg-lineColor w-[1px] h-auto "
+                                <Button
+                                    textButton="Lưu"
+                                    styleText="text-[1.6rem] leading-[2.4rem] text-[#fff]"
+                                    type="submit"
+                                    className="py-[8px] px-[20px] mt-[20px] mb-[10px] rounded-[4px] bg-primaryColor "
                                 />
-                                <div className="">
-                                    <div className="cursor-pointer relative w-[100px] h-[100px] rounded-[50%] overflow-hidden ">
-                                        <div className="w-[100px] h-[100px] rounded-[50%] absolute top-0 left-0 hover:bg-slate-300 hover:opacity-50 transition-all duration-200 ease-in-out"></div>
-                                        <img
-                                            className="object-cover border border-iconColor shadow-sm"
-                                            src={user?.avatar}
-                                            alt="user"
-                                        />
-                                    </div>
-                                    <div>
-                                        <span>Chọn ảnh</span>
-                                    </div>
-                                    <p>Dụng lượng file tối đa 1 MB
-                                    Định dạng:.JPEG, .PNG</p>
-                                </div>
-                            </div>
-                            <Button
-                                textButton="Lưu"
-                                styleText="text-[1.6rem] leading-[2.4rem] text-[#fff]"
-                                className="py-[8px] px-[20px] mt-[20px] mb-[10px] rounded-[4px] bg-primaryColor "
-                                type="submit"
+                            </form>
+                            <Line
+                                className="bg-lineColor w-[1px] h-auto "
                             />
-                        </form>
+                            <div className="">
+                                <div className="cursor-pointer relative w-[100px] h-[100px] rounded-[50%] overflow-hidden ">
+                                    <div className="w-[100px] h-[100px] rounded-[50%] absolute top-0 left-0 hover:bg-slate-300 hover:opacity-50 transition-all duration-200 ease-in-out"></div>
+                                    <img
+                                        className="object-cover w-[100px] h-[100px] rounded-[50%] border border-iconColor shadow-sm"
+                                        src={user?.avatar}
+                                        alt="user"
+                                    />
+                                </div>
+                                <input
+                                    type="file"
+                                    id="fileInput"
+                                    style={{ display: 'none' }}
+                                    ref={inputImgRef}
+                                    onChange={handleFileUpload}
+                                />
+                                <Button
+                                    textButton="Chọn ảnh"
+                                    styleText="text-[1.6rem] leading-[2.4rem] text-[#fff]"
+                                    className="py-[8px] px-[20px] mt-[20px] mb-[10px]  rounded-[4px] bg-primaryColor "
+                                    onClick={()=>inputImgRef.current.click()}
+                                />
+                                <p className="w-[100%] text-[1.4rem] font-[400] text-iconColor  ">Dụng lượng file tối đa 1 MB Định dạng:.JPEG, .PNG</p>
+                            </div>
+                        </div>
                         )
                     }
 

@@ -13,6 +13,7 @@ export default {
         textColor: "#1f1f1f",
         warningColor: "#e94d5b",
         iconColor: "#808089",
+        starColor: "#fdd835"
       }
     },
   },
