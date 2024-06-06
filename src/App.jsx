@@ -10,7 +10,7 @@
 //                                         \$$$$$$  |                                                      
 //                                          \______/                                                       
 import Header from './components/Header.jsx'
-import { Routes,Route, useNavigate, useLocation } from 'react-router-dom'
+import { Routes,Route, useNavigate, useLocation,matchPath } from 'react-router-dom'
 import { publicRouters} from "./router"
 import Footer from './components/Footer.jsx'
 import { useEffect } from 'react'
@@ -20,7 +20,6 @@ import {  getUser } from './data/Api.js'
 import { jwtDecode } from "jwt-decode"
 export default function App() {
   const user=useSelector(selectUser)
-  console.log(user?.isAdmin)
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const location=useLocation()
@@ -50,11 +49,11 @@ export default function App() {
       navigate('/')
     }
   },[user,navigate,location])
-
-  const currentRouter=publicRouters.find(router=>router.path===location.pathname)
+  //hàm match kiểm tra có khớp với router không
+  const currentRouter=publicRouters.find(router=> matchPath(router.path, location.pathname))
   return (
     <div className='bg-background'>
-      {currentRouter?.isShowHeaderAndFooter && <Header/>}
+      {currentRouter?.isShowHeader && <Header/>}
       <Routes>
         {
           publicRouters.map((router)=>{
@@ -66,7 +65,7 @@ export default function App() {
           })
         }
       </Routes>
-      {currentRouter?.isShowHeaderAndFooter && <Footer/>}
+      {currentRouter?.isShowFooter && <Footer/>}
     </div>
   )
 }

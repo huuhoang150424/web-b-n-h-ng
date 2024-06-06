@@ -15,8 +15,8 @@ export const refreshToken=()=>HTTP_REFRESHToken.post(`user/refresh`)
 export const getUser=(id,payload)=>HTTP.get(`user/getUser/${id}`,payload)
 
 //update user
-export const updateUser=(id,payload)=>HTTP.put(`user/update/${id}`,payload)
+export const updateUser=(id,payload,config)=>HTTP.put(`user/update/${id}`,payload,config)
 
 
 //getAllProducts
-export const getProducts=(payload)=>HTTP.get(`product/getAllProducts`,payload)
+export const getProducts=(config)=>HTTP.get(`product/getAllProducts`,config)

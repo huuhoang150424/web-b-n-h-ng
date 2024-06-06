@@ -30,8 +30,6 @@ export const setupAxiosInterceptors = (axiosInstance) => {
     })
 }
 
-
-
 export const isJSONString = (accessToken) => {
     try {
         JSON.parse(accessToken)

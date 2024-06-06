@@ -13,63 +13,72 @@ export const publicRouters = [
         path: "/login",
         element: <Login/>,
         isAdminPage: false,
-        isShowHeaderAndFooter: false,
+        isShowHeader: false,
+        isShowFooter: false,
         name: "Đăng nhập"
     },
     {
         path: "/register",
         element: <Register/>,
         isAdminPage: false,
-        isShowHeaderAndFooter: false,
+        isShowHeader: false,
+        isShowFooter: false,
         name: "Đăng ký"
     },
     {
         path: "/",
         element: <HomePage/>,
         isAdminPage: false,
-        isShowHeaderAndFooter: true,
+        isShowHeader: true,
+        isShowFooter: true,
         name: "Trang chủ"
     },
     {
         path: "/productsDetail/:id",
         element: <ProductsDetail/>,
         isAdminPage: false,
-        isShowHeaderAndFooter: true,
+        isShowHeader: true,
+        isShowFooter: true,
         name: "Trang chi tiết"
     },
     {
         path: "/order",
         element: <OrderPage/>,
         isAdminPage: false,
-        isShowHeaderAndFooter: true,
+        isShowHeader: true,
+        isShowFooter: true,
         name: "đơn hàng"
     },
     {
         path: "/profile",
         element: <Profile/>,
         isAdminPage: false,
-        isShowHeaderAndFooter: true,
+        isShowHeader: true,
+        isShowFooter: true,
         name: "Trang cá nhân"
     },
     {
         path: "/cart",
         element: <CartPage/>,
         isAdminPage: false,
-        isShowHeaderAndFooter: true,
+        isShowHeader: true,
+        isShowFooter: true,
         name: "Giỏ hàng"
+    },
+    {
+        path: "/system/admin",
+        element: <DashBroad/>,
+        isAdminPage: true,
+        isShowHeader: true,
+        isShowFooter: false,
+        name: "trang tổng quan"
     },
     {
         path: "*",
         element: <NotFoundPage/>,
         isAdminPage: false,
-        isShowHeaderAndFooter: true,
+        isShowHeader: true,
+        isShowFooter: true,
         name: ""
-    }
-    ,   {
-        path: "/system/admin",
-        element: <DashBroad/>,
-        isAdminPage: true,
-        isShowHeaderAndFooter: false,
-        name: "trang tổng quan"
     }
 ]

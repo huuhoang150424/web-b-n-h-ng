@@ -6,6 +6,7 @@ import Line from "../../components/Line"
 import { useRef, useState } from "react"
 import Button from "../../components/Button"
 import { updateUser } from "../../data/Api"
+import { success } from "../../components/Message"
 
 const loginSchema = Yup.object().shape({})
 
@@ -14,26 +15,41 @@ export const Profile = () => {
     const token=useSelector(selectToken)
     const [editProfile,setEditProfile]=useState(true)
     const inputImgRef=useRef()
-    const handleFileUpload=(e)=>{
-        const fileImg=e.target.files[0]
+    const imgRef=useRef()
+    const handleFileUpload = (e) => {
+        const fileImg = e.target.files[0];
         if (fileImg) {
-            const reader=new FileReader()
-            reader.onloadend=()=>{
-                formik.setFieldValue("avatar", reader.result)
-            }
-            reader.readAsDataURL(fileImg)
+            formik.setFieldValue("avatar", fileImg);
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                imgRef.current.src = event.target.result
+            };
+            reader.readAsDataURL(fileImg) // Đọc tệp dưới dạng URL dữ liệu
         }
-    }
+    };
+    
 
-    const handleEditProfile=async (value)=>{
-        console.log(value)
+    const handleEditProfile=async (values)=>{
+        console.log(values)
         try {
-            const response=await updateUser(user._id,value,{
+            console.log(values)
+            const formData=new FormData()
+            formData.append('name', values.name)
+            formData.append('email', values.email)
+            formData.append('phone', values.phone)
+            formData.append('sex', values.sex)
+            formData.append('address', values.address)
+            if (values.avatar) {
+                formData.append('avatar', values.avatar)
+            }
+            console.log(formData)
+            const response=await updateUser(user._id,formData,{
                 headers: {
+                    //Content-Type: 'multipart/form-data',
                     token: `Bearer ${token}`
                 }
             })
-            console.log(response.data.message)
+            success({messageContent: response.data.message})
             setEditProfile(true)
             return response.data.message
         } catch(err) {
@@ -214,8 +230,9 @@ export const Profile = () => {
                                     <div className="w-[100px] h-[100px] rounded-[50%] absolute top-0 left-0 hover:bg-slate-300 hover:opacity-50 transition-all duration-200 ease-in-out"></div>
                                     <img
                                         className="object-cover w-[100px] h-[100px] rounded-[50%] border border-iconColor shadow-sm"
-                                        src={user?.avatar}
+                                        src={formik.values.avatar || ''}
                                         alt="user"
+                                        ref={imgRef}
                                     />
                                 </div>
                                 <input
