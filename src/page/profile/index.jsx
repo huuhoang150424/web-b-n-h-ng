@@ -17,17 +17,16 @@ export const Profile = () => {
     const inputImgRef=useRef()
     const imgRef=useRef()
     const handleFileUpload = (e) => {
-        const fileImg = e.target.files[0];
+        const fileImg = e.target.files[0]
         if (fileImg) {
-            formik.setFieldValue("avatar", fileImg);
-            const reader = new FileReader();
+            formik.setFieldValue("avatar", fileImg)
+            const reader = new FileReader()
             reader.onload = (event) => {
                 imgRef.current.src = event.target.result
-            };
+            }
             reader.readAsDataURL(fileImg) // Đọc tệp dưới dạng URL dữ liệu
         }
-    };
-    
+    }
 
     const handleEditProfile=async (values)=>{
         console.log(values)

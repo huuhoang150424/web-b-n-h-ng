@@ -21,7 +21,6 @@ const renderPage=(key='user')=>{
 export const DashBroad = () => {
     const [selectIndex,setSelectIndex]=useState(0)
     const [keywordMenu,setKeywordMenu]=useState('user')
-    console.log(selectIndex)
     const handleClickMenu=(index)=>{
         setSelectIndex(index)
     }

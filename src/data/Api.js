@@ -20,3 +20,6 @@ export const updateUser=(id,payload,config)=>HTTP.put(`user/update/${id}`,payloa
 
 //getAllProducts
 export const getProducts=(config)=>HTTP.get(`product/getAllProducts`,config)
+
+//create Product
+export const createProduct=(payload,config)=>HTTP.post(`product/createProduct`,payload,config)
